@@ -1,11 +1,6 @@
 import run
 from run import STR_NOT_VALID_JSON
 
-class MockChat:
-
-    def __init__(self, id):
-        self.id = id
-		
 
 class TestGeoBot:
 
