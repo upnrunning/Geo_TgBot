@@ -14,7 +14,8 @@ class TestGeoBot:
         self.test_not_geojson()
         self.test_single_geojson()
         self.test_normal_geojson()
-        print("Successful tests: {}, Failed tests: {}".format(self.successful_count, self.fail_count))
+        print("Successful tests: {}, Failed tests: {}".format(
+            self.successful_count, self.fail_count))
 
     def assert_func(self, result, desired_result, test_name):
         if result == desired_result:
@@ -25,60 +26,50 @@ class TestGeoBot:
             print(test_name, ": fail")
 
     def test_document_not_json(self):
-        file = open("TestFiles/archive.zip", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/archive.zip", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Archive file")
 
-        file = open("TestFiles/desert.jpg", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/desert.jpg", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Image file")
 
-        file = open("TestFiles/presentation.pptx", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/presentation.pptx", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Presentation file")
 
-        file = open("TestFiles/Test.docx", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/Test.docx", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Docx file")
 
-        file = open("TestFiles/Test.pdf", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/Test.pdf", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "PDF file")
 
-        file = open("TestFiles/text.txt", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/text.txt", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Text file")
 
     def test_invalid_geojson(self):
-        file = open("TestFiles/invalid.geojson", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/invalid.geojson", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Invalid GeoJSON")
 
     def test_not_geojson(self):
-        file = open("TestFiles/not_geojson.geojson", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/not_geojson.geojson", "rb") as file:
+            res = run.process_document(file.read())
         self.assert_func(res, STR_NOT_VALID_JSON, "Not GeoJSON")
 
     def test_single_geojson(self):
-        file = open("TestFiles/single_geom.geojson", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/single_geom.geojson", "rb") as file:
+            res = run.process_document(file.read())
         true_dict = {"Point": 1, "MultiPoint": 0, "LineString": 0,
                      "MultiLineString": 0, "Polygon": 0, "MultiPolygon": 0}
         self.assert_func(res, true_dict, "Single geometry object")
 
     def test_normal_geojson(self):
-        file = open("TestFiles/normal.geojson", "rb")
-        res = run.process_document(file.read())
-        file.close()
+        with open("TestFiles/normal.geojson", "rb") as file:
+            res = run.process_document(file.read())
         true_dict = {"Point": 10, "MultiPoint": 0, "LineString": 2,
                      "MultiLineString": 0, "Polygon": 3, "MultiPolygon": 0}
         self.assert_func(res, true_dict, "Normal GeoJSON")
